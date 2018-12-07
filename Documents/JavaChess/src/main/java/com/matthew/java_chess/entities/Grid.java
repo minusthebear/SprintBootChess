@@ -39,7 +39,7 @@ public class Grid {
         this.board = board;
     }
 
-    public Map<String, ?> getAllObjects() {
+    public Map<String, Map<String, Piece[]>> getAllObjects() {
         return allObjects;
     }
 
@@ -114,10 +114,14 @@ public class Grid {
             Piece[] rookArray = initializeRooks(homeTeam, initRearYPosition);
             Piece[] queenArray = initializeQueens(homeTeam, initRearYPosition);
             Piece[] kingArray = initializeKings(homeTeam, initRearYPosition);
+            Piece[] bishopArray = initializeBishops(homeTeam, initRearYPosition);
+            Piece[] knightArray = initializeKnights(homeTeam, initRearYPosition);
             HashMap<String, Piece[]> pieces = new HashMap<>();
             pieces.put("rooks", rookArray);
             pieces.put("queens", queenArray);
             pieces.put("kings", kingArray);
+            pieces.put("bishops", bishopArray);
+            pieces.put("knights", bishopArray);
             this.allObjects.put(color, pieces);
         }
     }
@@ -150,6 +154,28 @@ public class Grid {
         this.setStartPosOnGrid(5, Y, kingOne);
 
         return kings;
+    }
+
+    private Bishop[] initializeBishops(boolean team, int Y) {
+        Bishop bishopOne = new Bishop(3, Y, "Bishop", team);
+        Bishop bishopTwo = new Bishop(6, Y, "Bishop", team);
+        Bishop[] bishops = new Bishop[]{bishopOne, bishopTwo};
+
+        this.setStartPosOnGrid(3, Y, bishopOne);
+        this.setStartPosOnGrid(6, Y, bishopTwo);
+
+        return bishops;
+    }
+
+    private Bishop[] initializeKnights(boolean team, int Y) {
+        Bishop bishopOne = new Bishop(2, Y, "Bishop", team);
+        Bishop bishopTwo = new Bishop(7, Y, "Bishop", team);
+        Bishop[] bishops = new Bishop[]{bishopOne, bishopTwo};
+
+        this.setStartPosOnGrid(2, Y, bishopOne);
+        this.setStartPosOnGrid(7, Y, bishopTwo);
+
+        return bishops;
     }
 
     public void splicePiece(Piece piece) {

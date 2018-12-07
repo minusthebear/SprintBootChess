@@ -24,6 +24,16 @@ public abstract class Piece {
         this.position.put("y", y);
     }
 
+    public Piece(int id, int x, int y, String type, boolean color) {
+        this.id = id;
+        this.type = type;
+        this.white = color;
+        this.taken = false;
+        this.untouched = true;
+        this.position.put("x", x);
+        this.position.put("y", y);
+    }
+
     public boolean checkIfOppositeColor(int x, int y, Grid grid) {
         Map <Integer, Piece> row = grid.board.get(x);
         Piece piece = row.get(y);

@@ -2,7 +2,7 @@ package com.matthew.java_chess.entities;
 
 public class Queen extends Piece {
 
-    PieceMoves pieceMoves;
+    private PieceMoves pieceMoves;
 
     public Queen (int x, int y, String type, boolean color) {
         super(x, y, type, color);
