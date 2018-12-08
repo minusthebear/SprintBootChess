@@ -2,9 +2,7 @@ package com.matthew.java_chess.entities;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class Grid {
@@ -12,9 +10,9 @@ public class Grid {
     String name;
     private static final int min = 1;
     private static final int max = 8;
-    Map<Integer, Map<Integer, Piece>> board = new HashMap<>();
-    Map<String, Map<String, Piece[]>> allObjects = new HashMap<String, Map<String, Piece[]>>();;
-    Map<String, Integer> boundary = new HashMap<>();
+    private Map<Integer, Map<Integer, Piece>> board = new HashMap<>();
+    private Map<String, Map<String, List<? extends Piece>>> allObjects = new HashMap<>();
+    private Map<String, Integer> boundary = new HashMap<>();
 
     public Grid(String name) {
         this.name = name;
@@ -39,11 +37,11 @@ public class Grid {
         this.board = board;
     }
 
-    public Map<String, Map<String, Piece[]>> getAllObjects() {
+    public Map<String, Map<String, List<? extends Piece>>> getAllObjects() {
         return allObjects;
     }
 
-    public void setAllObjects(Map<String, Map<String, Piece[]>> allObjects) {
+    public void setAllObjects(Map<String, Map<String, List<? extends Piece>>> allObjects) {
         this.allObjects = allObjects;
     }
 
@@ -111,25 +109,30 @@ public class Grid {
                 homeTeam = false;
             }
 
-            Piece[] rookArray = initializeRooks(homeTeam, initRearYPosition);
-            Piece[] queenArray = initializeQueens(homeTeam, initRearYPosition);
-            Piece[] kingArray = initializeKings(homeTeam, initRearYPosition);
-            Piece[] bishopArray = initializeBishops(homeTeam, initRearYPosition);
-            Piece[] knightArray = initializeKnights(homeTeam, initRearYPosition);
-            HashMap<String, Piece[]> pieces = new HashMap<>();
+            List<Rook> rookArray = initializeRooks(homeTeam, initRearYPosition);
+            List<Queen> queenArray = initializeQueens(homeTeam, initRearYPosition);
+            List<King> kingArray = initializeKings(homeTeam, initRearYPosition);
+            List<Bishop> bishopArray = initializeBishops(homeTeam, initRearYPosition);
+            List<Knight> knightArray = initializeKnights(homeTeam, initRearYPosition);
+            List<Pawn> pawnArray = initializePawns(homeTeam, initFrontYPosition);
+            HashMap<String, List<? extends Piece>> pieces = new HashMap<>();
             pieces.put("rooks", rookArray);
             pieces.put("queens", queenArray);
             pieces.put("kings", kingArray);
             pieces.put("bishops", bishopArray);
-            pieces.put("knights", bishopArray);
+            pieces.put("knights", knightArray);
+            pieces.put("pawns", pawnArray);
             this.allObjects.put(color, pieces);
         }
     }
 
-    private Rook[] initializeRooks(boolean team, int Y) {
+    private List<Rook> initializeRooks(boolean team, int Y) {
+        List<Rook> rooks = new ArrayList<>();
         Rook rookOne = new Rook(1, Y, "Rook", team);
         Rook rookTwo = new Rook(8, Y, "Rook", team);
-        Rook[] rooks = new Rook[]{rookOne, rookTwo};
+
+        rooks.add(rookOne);
+        rooks.add(rookTwo);
 
         this.setStartPosOnGrid(1, Y, rookOne);
         this.setStartPosOnGrid(8, Y, rookTwo);
@@ -137,29 +140,34 @@ public class Grid {
         return rooks;
     }
 
-    private Queen[] initializeQueens(boolean team, int Y) {
+    private List<Queen> initializeQueens(boolean team, int Y) {
+        List<Queen> queens = new ArrayList<>();
         Queen queenOne = new Queen(4, Y, "Queen", team);
-        Queen[] queens = new Queen[]{queenOne};
-
+        queens.add(queenOne);
         this.setStartPosOnGrid(4, Y, queenOne);
 
         return queens;
     }
 
-    private King[] initializeKings(boolean team, int Y) {
-        King kingOne = new King(5, Y, "King", team);
-        King[] kings = new King[1];
-        kings[0] = kingOne;
+    private List<King> initializeKings(boolean team, int Y) {
 
+        List<King> kings = new ArrayList<>();
+        King kingOne = new King(5, Y, "King", team);
+        kings.add(kingOne);
         this.setStartPosOnGrid(5, Y, kingOne);
 
         return kings;
     }
 
-    private Bishop[] initializeBishops(boolean team, int Y) {
+    private List<Bishop> initializeBishops(boolean team, int Y) {
+
+        List<Bishop> bishops = new ArrayList<>();
+
         Bishop bishopOne = new Bishop(3, Y, "Bishop", team);
         Bishop bishopTwo = new Bishop(6, Y, "Bishop", team);
-        Bishop[] bishops = new Bishop[]{bishopOne, bishopTwo};
+
+        bishops.add(bishopOne);
+        bishops.add(bishopTwo);
 
         this.setStartPosOnGrid(3, Y, bishopOne);
         this.setStartPosOnGrid(6, Y, bishopTwo);
@@ -167,15 +175,32 @@ public class Grid {
         return bishops;
     }
 
-    private Bishop[] initializeKnights(boolean team, int Y) {
-        Bishop bishopOne = new Bishop(2, Y, "Bishop", team);
-        Bishop bishopTwo = new Bishop(7, Y, "Bishop", team);
-        Bishop[] bishops = new Bishop[]{bishopOne, bishopTwo};
+    private List<Knight> initializeKnights(boolean team, int Y) {
 
-        this.setStartPosOnGrid(2, Y, bishopOne);
-        this.setStartPosOnGrid(7, Y, bishopTwo);
+        List<Knight> knights = new ArrayList<>();
 
-        return bishops;
+        Knight knightOne = new Knight(2, Y, "Knight", team);
+        Knight knightTwo = new Knight(7, Y, "Knight", team);
+
+        knights.add(knightOne);
+        knights.add(knightTwo);
+
+        this.setStartPosOnGrid(2, Y, knightOne);
+        this.setStartPosOnGrid(7, Y, knightTwo);
+
+        return knights;
+    }
+
+
+    private List<Pawn> initializePawns(boolean team, int Y) {
+        List<Pawn> pawns = new ArrayList<Pawn>();
+
+        for (int i = min; i <= max; i++) {
+            Pawn pawn = new Pawn(i, Y, "Pawn", team);
+            pawns.add(pawn);
+            this.setStartPosOnGrid(i, Y, pawn);
+        }
+        return pawns;
     }
 
     public void splicePiece(Piece piece) {
@@ -190,12 +215,12 @@ public class Grid {
                 color = "black";
             }
 
-            Map<String, Piece[]> allObjects = this.allObjects.get(color);
-            Piece[] pieceList = allObjects.get(piece.getType());
+            Map<String, List<? extends Piece>> allObjects = this.allObjects.get(color);
+            List<? extends Piece> pieceList = allObjects.get(piece.getType());
 
             for (Piece p: pieceList) {
                 if (id.equals(p.getId())) {
-                    pieceList = ArrayUtils.removeElement(pieceList, piece);
+                    pieceList.remove(p);
                 }
             }
         }

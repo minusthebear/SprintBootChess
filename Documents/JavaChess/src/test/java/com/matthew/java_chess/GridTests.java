@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -24,21 +25,23 @@ public class GridTests {
         assertThat(grid.getName(), is("Matthew"));
         grid.initializeGame();
 
-        Map<String, Map<String, Piece[]>> allPieces = grid.getAllObjects();
-        Map<String, Piece[]> allWhitePieces = allPieces.get("white");
-        Map<String, Piece[]> allBlackPieces = allPieces.get("black");
+        Map<String, Map<String, List<? extends Piece>>> allPieces = grid.getAllObjects();
+        Map<String, List<? extends Piece>> allWhitePieces = allPieces.get("white");
+        Map<String, List<? extends Piece>> allBlackPieces = allPieces.get("black");
 
-        assertThat(allWhitePieces.get("kings").length, comparesEqualTo(1));
-        assertThat(allWhitePieces.get("queens").length, comparesEqualTo(1));
-        assertThat(allWhitePieces.get("rooks").length, comparesEqualTo(2));
-        assertThat(allWhitePieces.get("bishops").length, comparesEqualTo(2));
-        assertThat(allWhitePieces.get("knights").length, comparesEqualTo(2));
+        assertThat(allWhitePieces.get("kings").size(), comparesEqualTo(1));
+        assertThat(allWhitePieces.get("queens").size(), comparesEqualTo(1));
+        assertThat(allWhitePieces.get("rooks").size(), comparesEqualTo(2));
+        assertThat(allWhitePieces.get("bishops").size(), comparesEqualTo(2));
+        assertThat(allWhitePieces.get("knights").size(), comparesEqualTo(2));
+        assertThat(allWhitePieces.get("pawns").size(), comparesEqualTo(8));
 
-        assertThat(allBlackPieces.get("kings").length, comparesEqualTo(1));
-        assertThat(allBlackPieces.get("queens").length, comparesEqualTo(1));
-        assertThat(allBlackPieces.get("rooks").length, comparesEqualTo(2));
-        assertThat(allBlackPieces.get("bishops").length, comparesEqualTo(2));
-        assertThat(allBlackPieces.get("knights").length, comparesEqualTo(2));
+        assertThat(allBlackPieces.get("kings").size(), comparesEqualTo(1));
+        assertThat(allBlackPieces.get("queens").size(), comparesEqualTo(1));
+        assertThat(allBlackPieces.get("rooks").size(), comparesEqualTo(2));
+        assertThat(allBlackPieces.get("bishops").size(), comparesEqualTo(2));
+        assertThat(allBlackPieces.get("knights").size(), comparesEqualTo(2));
+        assertThat(allBlackPieces.get("pawns").size(), comparesEqualTo(8));
     }
 
     @Test

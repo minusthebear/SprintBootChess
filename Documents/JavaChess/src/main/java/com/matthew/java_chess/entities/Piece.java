@@ -35,7 +35,7 @@ public abstract class Piece {
     }
 
     public boolean checkIfOppositeColor(int x, int y, Grid grid) {
-        Map <Integer, Piece> row = grid.board.get(x);
+        Map <Integer, Piece> row = grid.getBoard().get(x);
         Piece piece = row.get(y);
 
         if (piece != null) {

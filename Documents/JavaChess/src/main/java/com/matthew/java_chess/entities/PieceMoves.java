@@ -83,7 +83,7 @@ public class PieceMoves {
     }
 
     private int loopThru(Piece piece, int x, int y, int oldX, int oldY, Grid grid) {
-        Map<Integer, Piece> row = grid.board.get(x);
+        Map<Integer, Piece> row = grid.getBoard().get(x);
         Piece otherPiece = row.get(y);
 
         if (otherPiece != null) {
@@ -132,7 +132,7 @@ public class PieceMoves {
             }
 
             for (int i = 1; i <= xToCheck; i++) {
-                row = grid.board.get(oldX - i);
+                row = grid.getBoard().get(oldX - i);
                 if (row.get(oldY - i) != null) {
                     return checkPiece(grid, piece, oldX - i, oldX, oldY - i, oldY);
                 }
@@ -149,7 +149,7 @@ public class PieceMoves {
             }
 
             for (int i = 1; i <= xToCheck; i++) {
-                row = grid.board.get(oldX - i);
+                row = grid.getBoard().get(oldX - i);
                 if (row.get(oldY + i) != null) {
                     return checkPiece(grid, piece, oldX - i, oldX, oldY + i, oldY);
                 }
@@ -166,7 +166,7 @@ public class PieceMoves {
             }
 
             for (int i = 1; i <= xToCheck; i++) {
-                row = grid.board.get(oldX + i);
+                row = grid.getBoard().get(oldX + i);
                 if (row.get(oldY - i) != null) {
                     return checkPiece(grid, piece, oldX + 1, oldX, oldY + i, oldY);
                 }
@@ -183,7 +183,7 @@ public class PieceMoves {
             }
 
             for (int i = 1; i <= xToCheck; i++) {
-                row = grid.board.get(oldX + i);
+                row = grid.getBoard().get(oldX + i);
                 if (row.get(oldY + i) != null) {
                     return checkPiece(grid, piece, oldX + 1, oldX, oldY + i, oldY);
                 }
@@ -197,7 +197,7 @@ public class PieceMoves {
     private boolean checkPiece(Grid grid, Piece piece, int numX, int oldNumX, int numY, int oldNumY) {
         Piece oldObj;
 
-        Map<Integer, Piece> row = grid.board.get(numX);
+        Map<Integer, Piece> row = grid.getBoard().get(numX);
 
         if (piece.checkIfOppositeColor(numX, numY, grid)) {
             oldObj = row.get(numY);
