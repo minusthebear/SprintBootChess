@@ -21,6 +21,6 @@ public class QueenTests {
 
     @Test
     public void moveQueen() {
-        
+
     }
 }

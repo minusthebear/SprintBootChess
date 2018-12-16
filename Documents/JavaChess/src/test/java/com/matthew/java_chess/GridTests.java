@@ -5,7 +5,6 @@ import com.matthew.java_chess.entities.Pawn;
 import com.matthew.java_chess.entities.Piece;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
