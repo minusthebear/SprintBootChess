@@ -3,7 +3,9 @@ package com.matthew.java_chess;
 import com.matthew.java_chess.entities.Grid;
 import com.matthew.java_chess.entities.Pawn;
 import com.matthew.java_chess.entities.Piece;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,11 +22,17 @@ import static org.hamcrest.Matchers.*;
 @SpringBootTest
 public class GridTests {
 
+    private Grid grid;
+
+    @Before
+    public void init() {
+        grid = new Grid("Matthew");
+        grid.initializeGame();
+    }
+
     @Test
     public void initializeGameTest() {
-        Grid grid = new Grid("Matthew");
         assertThat(grid.getName(), is("Matthew"));
-        grid.initializeGame();
 
         Map<String, Map<String, List<? extends Piece>>> allPieces = grid.getAllObjects();
         Map<String, List<? extends Piece>> allWhitePieces = allPieces.get("white");
@@ -55,8 +63,6 @@ public class GridTests {
 
     @Test
     public void initializeGridTest() {
-        Grid grid = new Grid("Matthew");
-        grid.initializeGame();
 
         Piece x1y1 = grid.getBoard().get(1).get(1);
         assertThat(x1y1.getClass().getSimpleName(), is("Rook"));
@@ -103,6 +109,5 @@ public class GridTests {
             Piece y7 = grid.getBoard().get(i).get(7);
             assertThat(y7.getClass().getSimpleName(), is("Pawn"));
         }
-
     }
 }
