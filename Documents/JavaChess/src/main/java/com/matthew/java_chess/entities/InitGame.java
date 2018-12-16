@@ -7,8 +7,8 @@ public class InitGame {
 
     public void initGame() {
         Grid game = initializeGame("Matthew");
-        System.out.println(game.allObjects);
-        System.out.println(game.board);
+//        System.out.println(game.getAllObjects());
+//        System.out.println(game.getBoard());
     }
 
     private static Grid initializeGame(String name) {

@@ -17,21 +17,30 @@ public class King extends Piece {
     }
 
     public boolean move(int x, int y, Grid grid) {
-        return false;
-    }
-
-    public boolean moveStraight(int x, int y, Grid grid) {
 
         if (!grid.boundaryCheck(x, y)) {
             return false;
         }
 
-        int oldX = this.position.get("x");
-        int oldY = this.position.get("y");
-
         if (checkIfInCheck(x, y, grid)) {
             return false;
         }
+
+        int posX = this.position.get("x");
+        int posY = this.position.get("y");
+
+        if (Math.abs(posX - x) == Math.abs(posY - y)) {
+            return moveDiagonal(x, y, grid);
+        } else if ((posX == x && posY != y) || (posY == y && posX != x)) {
+            return moveStraight(x, y, grid);
+        }
+        return false;
+    }
+
+    public boolean moveStraight(int x, int y, Grid grid) {
+
+        int oldX = this.position.get("x");
+        int oldY = this.position.get("y");
 
         if (!moveStraightCheck(x, y)) {
             return false;
@@ -83,14 +92,6 @@ public class King extends Piece {
 
     private boolean moveDiagonal(int x, int y, Grid grid) {
 
-        if (!grid.boundaryCheck(x, y)) {
-            return false;
-        }
-
-        if (checkIfInCheck(x, y, grid)) {
-            return false;
-        }
-
         if (moveDiagonalCheck(x, y)) {
             return checkPiece(grid, x, y);
         }
@@ -129,7 +130,7 @@ public class King extends Piece {
 
 
     private boolean checkPiece(Grid grid, int numX, int numY) {
-        Map<Integer, Piece> row = grid.board.get(numX);
+        Map<Integer, Piece> row = grid.getBoard().get(numX);
         Piece otherPiece = row.get(numY);
 
         if (this.checkIfOppositeColor(numX, numY, grid)) {
@@ -213,8 +214,8 @@ public class King extends Piece {
 
         int oldX = this.position.get("x");
         int oldY = this.position.get("y");
-        int min = grid.boundary.get("min");
-        int max = grid.boundary.get("max");
+        int min = grid.getBoundary().get("min");
+        int max = grid.getBoundary().get("max");
 
         // Check horizontally, x value descending
         for (int i = x - 1; i >= min; i--) {
@@ -338,7 +339,7 @@ public class King extends Piece {
     }
 
     private Piece getOtherPiece(int x, int y, Grid grid) {
-        Map<Integer, Piece> row = grid.board.get(x);
+        Map<Integer, Piece> row = grid.getBoard().get(x);
         Piece otherPiece = row.get(y);
         return otherPiece;
     }

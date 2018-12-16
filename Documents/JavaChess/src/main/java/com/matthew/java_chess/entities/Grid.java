@@ -225,4 +225,8 @@ public class Grid {
             }
         }
     }
+
+    public Map<String, Integer> getBoundary() {
+        return boundary;
+    }
 }
